@@ -1,5 +1,9 @@
 
+#' Create server for shiny checklist
+#'
+#' @param formInfo form info list
 #' @export
+#'
 formServer <- function(formInfo) {
   callModule(formServerHelper, formInfo$id, formInfo)
 }
@@ -8,19 +12,19 @@ formServerHelper <- function(input, output, session, formInfo) {
   if (grepl("\\s", formInfo$id)) {
     stop("Form id cannot have any spaces", call. = FALSE)
   }
-  
+
   if (formInfo$storage$type == STORAGE_TYPES$FLATFILE) {
     if (!dir.exists(formInfo$storage$path)) {
       dir.create(formInfo$storage$path, showWarnings = FALSE)
     }
   }
-  
+
   questions <- formInfo$questions
-  
+
   fieldsMandatory <- Filter(function(x) {!is.null(x$mandatory) && x$mandatory }, questions)
   fieldsMandatory <- unlist(lapply(fieldsMandatory, function(x) { x$id }))
   fieldsAll <- unlist(lapply(questions, function(x) { x$id }))
-  
+
   observe({
     mandatoryFilled <-
       vapply(fieldsMandatory,
@@ -29,18 +33,18 @@ formServerHelper <- function(input, output, session, formInfo) {
              },
              logical(1))
     mandatoryFilled <- all(mandatoryFilled)
-    
+
     shinyjs::toggleState(id = "submit", condition = mandatoryFilled)
   })
-  
+
   observeEvent(input$reset, {
     shinyjs::reset("form")
     shinyjs::hide("error")
   })
-  
+
   # When the Submit button is clicked, submit the response
   observeEvent(input$submit, {
-    
+
     # User-experience stuff
     shinyjs::disable("submit")
     shinyjs::show("submit_msg")
@@ -49,7 +53,7 @@ formServerHelper <- function(input, output, session, formInfo) {
       shinyjs::enable("submit")
       shinyjs::hide("submit_msg")
     })
-    
+
     if (!is.null(formInfo$validations)) {
       errors <- unlist(lapply(
         formInfo$validations, function(validation) {
@@ -63,7 +67,7 @@ formServerHelper <- function(input, output, session, formInfo) {
       if (length(errors) > 0) {
         shinyjs::show(id = "error", anim = TRUE, animType = "fade")
         if (length(errors) == 1) {
-          shinyjs::html("error_msg", errors[1])  
+          shinyjs::html("error_msg", errors[1])
         } else {
           errors <- c("", errors)
           shinyjs::html("error_msg", paste(errors, collapse = "<br>&bull; "))
@@ -71,7 +75,7 @@ formServerHelper <- function(input, output, session, formInfo) {
         return()
       }
     }
-    
+
     # Save the data (show an error message in case of error)
     tryCatch({
       saveData(formData(), formInfo$storage)
@@ -85,7 +89,7 @@ formServerHelper <- function(input, output, session, formInfo) {
       shinyjs::show(id = "error", anim = TRUE, animType = "fade")
     })
   })
-  
+
   if (!is.null(formInfo$multiple) && !formInfo$multiple) {
     submitMultiple <- FALSE
     shinyjs::hide("submit_another")
@@ -99,27 +103,27 @@ formServerHelper <- function(input, output, session, formInfo) {
     shinyjs::show("form")
     shinyjs::hide("thankyou_msg")
   })
-  
+
   # Gather all the form inputs (and add timestamp)
   formData <- reactive({
     data <- sapply(fieldsAll, function(x) input[[x]])
     data <- c(data, timestamp = as.integer(Sys.time()))
     data <- t(data)
     data
-  }) 
-  
+  })
+
   output$responsesTable <- DT::renderDataTable({
     if (!values$adminVerified) {
       return(matrix(0))
     }
-    
+
     DT::datatable(
       loadData(formInfo$storage),
       rownames = FALSE,
       options = list(searching = FALSE, lengthChange = FALSE, scrollX = TRUE)
     )
   })
-  
+
   values <- reactiveValues(admin = FALSE, adminVerified = FALSE)
   observe({
     search <- parseQueryString(session$clientData$url_search)
@@ -128,11 +132,11 @@ formServerHelper <- function(input, output, session, formInfo) {
       shinyjs::show("showhide")
     }
   })
-  
+
   observeEvent(input$showhide, {
     shinyjs::toggle("answers")
   })
-  
+
   observeEvent(input$submitPw, {
     if (input$adminpw == formInfo$password) {
       values$adminVerified <- TRUE
@@ -140,7 +144,7 @@ formServerHelper <- function(input, output, session, formInfo) {
       shinyjs::hide("pw-box")
     }
   })
-  
+
   # Allow admins to download responses
   output$downloadBtn <- downloadHandler(
     filename = function() {

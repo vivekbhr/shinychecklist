@@ -3,26 +3,30 @@ inlineInput <- function(tag) {
   tagAppendAttributes(tag, style = "display: inline-block;")
 }
 
+#' Create UI for shiny checklist
+#'
+#' @param formInfo list with required information
+#'
 #' @export
 formUI <- function(formInfo) {
-  
+
   ns <- NS(formInfo$id)
-  
+
   questions <- formInfo$questions
-  
+
   fieldsMandatory <- Filter(function(x) { !is.null(x$mandatory) && x$mandatory }, questions)
   fieldsMandatory <- unlist(lapply(fieldsMandatory, function(x) { x$id }))
-  
+
   titleElement <- NULL
   if (!is.null(formInfo$name)) {
     titleElement <- h2(formInfo$name)
   }
-  
+
   responseText <- "Thank you, your response was submitted successfully."
   if (!is.null(formInfo$responseText)) {
     responseText <- formInfo$responseText
   }
-  
+
   div(
     shinyjs::useShinyjs(),
     shinyjs::inlineCSS(appCSS),
@@ -39,7 +43,7 @@ formUI <- function(formInfo) {
             if (question$id %in% fieldsMandatory) {
               label <- labelMandatory(label)
             }
-            
+
             if (question$type == "text") {
               input <- textInput(ns(question$id), NULL, "")
             } else if (question$type == "numeric") {
@@ -47,7 +51,7 @@ formUI <- function(formInfo) {
             } else if (question$type == "checkbox") {
               input <- checkboxInput(ns(question$id), label, FALSE)
             }
-            
+
             div(
               class = "sf-question",
               if (question$type != "checkbox") {
@@ -92,7 +96,7 @@ formUI <- function(formInfo) {
                  class = "showhide",
                  "Show responses")
     ),
-    
+
     shinyjs::hidden(div(
       id = ns("answers"),
       class = "answers",
@@ -108,7 +112,7 @@ formUI <- function(formInfo) {
                           DT::dataTableOutput(ns("responsesTable"))
       ))
     )),
-    
+
     div(class = "created-by",
         "Created with",
         a(href = "https://github.com/daattali/shinyforms", "shinyforms")
