@@ -1,5 +1,10 @@
 # shinychecklist - Create checklists with shiny
 
+shinychecklist allows you to create a shiny server that hosts a checklist online. The data from the checklist can be stored in the google sheets and can also be downloaded as a pdf file.
+
+#### Fork information
+
+This package has been originally forked from dan attali's github repository called `shinyforms`, distributes with MIT license.
 
 #### How do I use this?
 
@@ -140,11 +145,3 @@ shinyApp(ui = ui, server = server)
 ```
 
 Notice how easy this is? After defining the forms with R lists, it's literally two function calls for each form to get it set up. A couple things to note: first, the soccer form uses the `multiple = FALSE` option, which means a user can only submit once (if you restart the Shiny app, the same user is able to submit the form again). Secondly, the first form uses the `password` option, which means that the admin table will be available IF you add `?admin=1` to the URL. To see the responses from the admin table, click on "Show responses" and type in the password "shinyforms". This app also uses several other features.
-
-#### Feedback
-
-If you think you could have a use for `shinyforms`, please do [let me know](http://deanattali.com/aboutme/#contact) or [file an issue](https://github.com/daattali/shinyforms/issues). Don't be shy!
-
-#### Notes
-
-Please don't look at the code, it's hideous! This was done at runconf16 in just a few very short hours so it needs to be cleaned up quite a bit. Also, since so little time was spent building this package so far, it's very likely that the API will change. I'm completely open for input.
