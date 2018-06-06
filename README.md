@@ -1,28 +1,5 @@
-# shinyforms - Easily create questionnaire-type forms with Shiny 
+# shinychecklist - Create checklists with shiny
 
-[![Donate](http://i.imgur.com/vCIGFrH.png)](https://www.paypal.me/daattali)
-[![saythanks](http://i.imgur.com/L88apDa.png)](https://saythanks.io/to/daattali)
-
-> *Copyright 2016 [Dean Attali](http://deanattali.com). Licensed under the MIT license.*
-
-## Note: This is very much a work in progress in its baby stages. This package only has one day's worth of work in it.  It's functional and works on a basic level, but there are many many more awesome things planned. I receive a lot of emails about this package, please understand it is not ready for production as it needs a lot more development. I am working on other projects as well and find it hard to find the time shinyforms deserves. If you would like to help fund/sponsor the development of shinyforms, please get in touch!
-
-- [What does shinyforms do?](#what-does-shinyforms-do)
-- [But, why?](#buy-why)
-- [How do I use this?](#how-do-i-use-this)
-- [Current features](#current-features)
-- [Future features](#future-features)
-- [Another example](#another-example)
-- [Feedback](#feedback)
-- [Notes](#notes)
-
-#### What does `shinyforms` do?
-
-The idea of `shinyforms` is to let you create questions/polls/surveys as Shiny apps *very* easily.  Kind of like mimicking a Google Form.  
-
-#### But, why?
-
-Good question. You should read my [blog post](http://deanattali.com/2015/06/14/mimicking-google-form-shiny/) where I discuss how to mimick Google Forms with Shiny, and why I originally needed to do it. I've created a few Shiny apps that request user input and save it somewhere, and I wanted to make it super streamlined for anyone else to do so in the future. You can see an live example of a Shiny form [here](http://daattali.com/shiny/mimic-google-form/).
 
 #### How do I use this?
 
@@ -30,14 +7,14 @@ First, install this package from GitHub
 
 ```
 # install.packages("devtools")
-devtools::install_github("daattali/shinyforms")
+devtools::install_github("vivekbhr/shinychecklist")
 ```
 
 Then create your list of questions. Each question is a list with an `id`, `type`, `title`, and `mandatory` (`mandatory` is `FALSE` by default)
 
 ```
 library(shiny)
-library(shinyforms)
+library(shinychecklist)
 
 questions <- list(
   list(id = "name", type = "text", title = "Name", mandatory = TRUE),
@@ -82,20 +59,16 @@ Of course you could put more stuff in the app, but this is the beauty of it, the
 
 - Responses are saved to local files
 - Support for mandatory vs optional fields (all questions with `mandatory = TRUE` have to be filled out before the submit button can be clicked)
-- Can create a form with only one line in the UI and one line in the server 
-- Can include multiple different forms in the same app 
+- Can create a form with only one line in the UI and one line in the server
+- Can include multiple different forms in the same app
 - Clean and user-friendly way to catch and report errors
 - Questions and form data are in the format of R lists
 - Supported question types: text, numeric, checkbox
 - Ability to submit multiple responses for the same form (use `multiple = FALSE` in the form info list to disallow multiple submissions)
-- Admin mode support: if you add `?admin=1` to the URL, you will see buttons for viewing all submitted responses below each form. If you want to see all responses, you'll have to enter a password to verify you're an admin (since anybody can just modify the URL). The password is provided by the `password` in the form info list. 
+- Admin mode support: if you add `?admin=1` to the URL, you will see buttons for viewing all submitted responses below each form. If you want to see all responses, you'll have to enter a password to verify you're an admin (since anybody can just modify the URL). The password is provided by the `password` in the form info list.
 - Support for more complex input validation that gives nice error messages when a field does not meet certain conditions (use the `validations` option in the form info)
 - Can have an optional "Reset" button that resets the fields in the form (use the `reset = TRUE` parameter in the form info)
 - Questions can have hint text, which is text just below the question title that gives a longer description (use the `hint` parameter of a question)
-
-#### Future features
-
-You can see all the features I want to support [here](https://github.com/daattali/shinyforms/issues) (but it might take some time because I can't devote too much time to this package right now).
 
 #### Another example
 
@@ -103,7 +76,7 @@ This example is similar to the previous one, but illustrates a few more features
 
 ```
 library(shiny)
-library(shinyforms)
+library(shinychecklist)
 
 # Define the first form: basic information
 basicInfoForm <- list(
