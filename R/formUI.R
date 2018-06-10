@@ -49,7 +49,7 @@ formUI <- function(formInfo) {
             } else if (question$type == "numeric") {
               input <- numericInput(ns(question$id), NULL, 0)
             } else if (question$type == "checkbox") {
-              input <- checkboxInput(ns(question$id), label, FALSE)
+              input <- checkboxInput(ns(question$id), label, FALSE, width = "100%")
             }
 
             div(
@@ -115,7 +115,7 @@ formUI <- function(formInfo) {
 
     div(class = "created-by",
         "Created with",
-        a(href = "https://github.com/daattali/shinyforms", "shinyforms")
+        a(href = "https://github.com/vivekbhr/shinychecklist", "shinychecklist")
     )
   )
 }

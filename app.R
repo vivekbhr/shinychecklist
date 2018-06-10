@@ -24,12 +24,14 @@ basicInfoForm <- list(
 
 ### UI and server
 ui <- fluidPage(
-  h1("Reproducibility Checklist"),
-  mainPanel(
-      "Reproducibility Checklist",
-      formUI(basicInfoForm)
-    )
-  )
+  titlePanel("Reproducibility Checklist"),
+      tabsetPanel(
+        tabPanel("Checklist",
+            formUI(formInfo = basicInfoForm)
+        )
+      )
+)
+
 
 server <- function(input, output, session) {
   formServer(basicInfoForm)
