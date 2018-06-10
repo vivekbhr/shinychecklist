@@ -30,3 +30,5 @@ appCSS <- "
 .shinyforms-ui .pw-box { margin-top: -20px; }
 .shinyforms-ui .created-by { font-size: 12px; font-style: italic; color: #777; margin: 25px auto 10px;}
 "
+
+

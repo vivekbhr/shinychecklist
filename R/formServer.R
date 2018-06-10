@@ -113,45 +113,41 @@ formServerHelper <- function(input, output, session, formInfo) {
   })
 
   output$responsesTable <- DT::renderDataTable({
-    if (!values$adminVerified) {
-      return(matrix(0))
-    }
-
     DT::datatable(
-      loadData(formInfo$storage),
-      rownames = FALSE,
+      loadData(formInfo$storage), rownames = FALSE,
       options = list(searching = FALSE, lengthChange = FALSE, scrollX = TRUE)
     )
   })
 
-  values <- reactiveValues(admin = FALSE, adminVerified = FALSE)
-  observe({
-    search <- parseQueryString(session$clientData$url_search)
-    if ("admin" %in% names(search) && !is.null(formInfo$password)) {
-      values$admin <- TRUE
-      shinyjs::show("showhide")
-    }
-  })
-
-  observeEvent(input$showhide, {
-    shinyjs::toggle("answers")
-  })
-
-  observeEvent(input$submitPw, {
-    if (input$adminpw == formInfo$password) {
-      values$adminVerified <- TRUE
-      shinyjs::show("showAnswers")
-      shinyjs::hide("pw-box")
-    }
-  })
-
-  # Allow admins to download responses
-  output$downloadBtn <- downloadHandler(
-    filename = function() {
-      sprintf("%s_%s.csv", formInfo$id, format(Sys.time(), "%Y%m%d-%H%M%OS"))
-    },
-    content = function(file) {
-      write.csv(loadData(formInfo$storage), file, row.names = FALSE)
-    }
-  )
 }
+
+#values <- reactiveValues(admin = FALSE, adminVerified = FALSE)
+#observe({
+#  search <- parseQueryString(session$clientData$url_search)
+#  if ("admin" %in% names(search) && !is.null(formInfo$password)) {
+#    values$admin <- TRUE
+#    shinyjs::show("showhide")
+#  }
+#})
+
+#observeEvent(input$showhide, {
+#  shinyjs::toggle("answers")
+#})
+
+#observeEvent(input$submitPw, {
+#  if (input$adminpw == formInfo$password) {
+#    values$adminVerified <- TRUE
+#    shinyjs::show("showAnswers")
+#    shinyjs::hide("pw-box")
+#  }
+#})
+
+# Allow admins to download responses
+#output$downloadBtn <- downloadHandler(
+#  filename = function() {
+#    sprintf("%s_%s.csv", formInfo$id, format(Sys.time(), "%Y%m%d-%H%M%OS"))
+#  },
+#  content = function(file) {
+#    write.csv(loadData(formInfo$storage), file, row.names = FALSE)
+#  }
+#)

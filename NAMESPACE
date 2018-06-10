@@ -3,3 +3,5 @@
 export(STORAGE_TYPES)
 export(formServer)
 export(formUI)
+export(loadData)
+export(saveData)

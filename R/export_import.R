@@ -1,4 +1,6 @@
 
+## saveData wrapper function
+#' @export
 saveData <- function(data, storage) {
   if (storage$type == STORAGE_TYPES$FLATFILE) {
     saveDataFlatfile(data, storage)
@@ -7,13 +9,17 @@ saveData <- function(data, storage) {
   }
 }
 
+## load Data wrapper
+#' @export
 loadData <- function(storage) {
   if (storage$type == STORAGE_TYPES$FLATFILE) {
     loadDataFlatfile(storage)
   } else if (storage$type == STORAGE_TYPES$GOOGLE_SHEETS) {
-    #loadDataGsheets(storage)
+    loadDataGsheets(storage)
   }
 }
+
+# flat file : save
 saveDataFlatfile <- function(data, storage) {
   fileName <- paste0(
     paste(
@@ -23,25 +29,27 @@ saveDataFlatfile <- function(data, storage) {
     ),
     ".csv"
   )
-  
   resultsDir <- storage$path
-  
   # write out the results
   write.csv(x = data, file = file.path(resultsDir, fileName),
             row.names = FALSE, quote = TRUE)
 }
+
+# flat file : load
 loadDataFlatfile <- function(storage) {
   resultsDir <- storage$path
   files <- list.files(file.path(resultsDir), full.names = TRUE)
   data <- lapply(files, read.csv, stringsAsFactors = FALSE)
   data <- do.call(rbind, data)
-  
-  data
+  return(data)
 }
 
+## GSHEETS : save
 saveDataGsheets <- function(data, storage) {
-  gs_add_row(gs_key(storage$key), input = data)
+  googlesheets::gs_add_row(gs_url(storage$url), input = data)
 }
-loadDataGsheets <- function() {
-  gs_read_csv(gs_key(storage$key))
+
+## GSHEETS : load
+loadDataGsheets <- function(storage) {
+  googlesheets::gs_read_csv(gs_url(storage$url))
 }
