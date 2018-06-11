@@ -46,10 +46,10 @@ loadDataFlatfile <- function(storage) {
 
 ## GSHEETS : save
 saveDataGsheets <- function(data, storage) {
-  googlesheets::gs_add_row(gs_url(storage$url), input = data)
+  googlesheets::gs_add_row(googlesheets::gs_key(storage$key), input = data)
 }
 
 ## GSHEETS : load
 loadDataGsheets <- function(storage) {
-  googlesheets::gs_read_csv(gs_url(storage$url))
+  googlesheets::gs_read_csv(googlesheets::gs_key(storage$key))
 }
