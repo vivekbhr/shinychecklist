@@ -19,14 +19,14 @@ formUI <- function(formInfo) {
 
   titleElement <- NULL
   if (!is.null(formInfo$name)) {
-    titleElement <- h2(formInfo$name)
+    titleElement <- h3(formInfo$name)
   }
 
   responseText <- "Thank you, your response was submitted successfully."
   if (!is.null(formInfo$responseText)) {
     responseText <- formInfo$responseText
   }
-
+  appCSS <- getappCSS()
   div(
     shinyjs::useShinyjs(),
     shinyjs::inlineCSS(appCSS),
@@ -49,7 +49,16 @@ formUI <- function(formInfo) {
             } else if (question$type == "numeric") {
               input <- numericInput(ns(question$id), NULL, 0)
             } else if (question$type == "checkbox") {
-              input <- checkboxInput(ns(question$id), label, FALSE, width = "100%")
+              if (!(is.null(question$bold)) & question$bold == TRUE) {
+                input <- checkboxInput(ns(question$id),
+                                       div(class = "sf-question-bold", label),
+                                       FALSE, width = "80%")
+              } else {
+                input <- checkboxInput(ns(question$id),
+                                       div(class = "sf-question", label),
+                                       FALSE, width = "80%")
+              }
+
             }
 
             div(

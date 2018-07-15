@@ -3,5 +3,6 @@
 export(STORAGE_TYPES)
 export(formServer)
 export(formUI)
+export(getquestions)
 export(loadData)
 export(saveData)
