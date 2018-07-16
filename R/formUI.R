@@ -59,6 +59,15 @@ formUI <- function(formInfo) {
                                        FALSE, width = "80%")
               }
 
+            } else if (question$type == "selectinput") {
+              input <- selectInput(ns(question$id),
+                                   label,
+                                   choices = question$choices,
+                                   selected = NULL,
+                                   multiple = question$multipleAllowed,
+                                   selectize = TRUE,
+                                   width = NULL,
+                                   size = NULL)
             }
 
             div(
