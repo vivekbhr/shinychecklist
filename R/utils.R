@@ -17,11 +17,11 @@ getquestions <- function(yaml) {
   questions <- yaml::read_yaml(yaml)
   questions <- lapply(seq_along(questions), function(x) {
                   if (is.null(questions[[x]]$type)) questions[[x]]$type = "checkbox"
-                  questions[[x]]$id = paste0("question",x)
+                  if (is.null(questions[[x]]$id)) questions[[x]]$id = paste0("question",x)
                   return(questions[[x]])
   })
-  qtitles <- sapply(questions, function(x) return(x$qtitle))
-  return(list(questions = questions, qtitles = qtitles))
+  qtitles <- sapply(questions, function(x) return(x$id))
+  return(list(questions = questions, ids = qtitles))
 }
 
 

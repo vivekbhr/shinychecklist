@@ -61,7 +61,7 @@ formUI <- function(formInfo) {
 
             } else if (question$type == "selectinput") {
               input <- selectInput(ns(question$id),
-                                   label,
+                                   NULL,
                                    choices = question$choices,
                                    selected = NULL,
                                    multiple = question$multipleAllowed,
