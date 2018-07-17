@@ -50,15 +50,13 @@ formUI <- function(formInfo) {
               input <- numericInput(ns(question$id), NULL, 0)
             } else if (question$type == "checkbox") {
               if (!(is.null(question$bold)) & question$bold == TRUE) {
-                input <- checkboxInput(ns(question$id),
-                                       div(class = "sf-question-bold", label),
-                                       FALSE, width = "80%")
+                qclass <- "sf-question-bold"
               } else {
-                input <- checkboxInput(ns(question$id),
-                                       div(class = "sf-question", label),
-                                       FALSE, width = "80%")
+                qclass <- "sf-question"
               }
-
+              input <- checkboxInput(ns(question$id),
+                                     div(class = qclass, label),
+                                     FALSE, width = "80%")
             } else if (question$type == "selectinput") {
               input <- selectInput(ns(question$id),
                                    NULL,
