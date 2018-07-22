@@ -64,7 +64,7 @@ formUI <- function(formInfo) {
                                    selected = NULL,
                                    multiple = question$multipleAllowed,
                                    selectize = TRUE,
-                                   width = NULL,
+                                   width = '60%',
                                    size = NULL)
             }
 
@@ -85,6 +85,7 @@ formUI <- function(formInfo) {
           }
         )
       ),
+      br(), br(),
       actionButton(ns("submit"), "Submit", class = "btn-primary"),
       if (!is.null(formInfo$reset) && formInfo$reset) {
         actionButton(ns("reset"), "Reset")
