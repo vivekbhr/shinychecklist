@@ -3,7 +3,7 @@ Title: create checklists using shiny
 Version: 0.0.0.9000
 Authors@R: person("Vivek", "Bhardwaj", email = "bhardwaj@ie-freiburg.mpg.de", role = c("aut", "cre"))
 Description: create checklists using shiny
-Depends: R (>= 3.5.0)
+Depends: R (>= 3.4.0)
 License: MIT
 Encoding: UTF-8
 LazyData: true
